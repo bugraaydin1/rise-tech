@@ -1,0 +1,12 @@
+# Dependency
+node_modules/
+
+# Production
+build/
+
+# Test
+coverage/
+
+# Misc
+.vscode
+.DS_Store
