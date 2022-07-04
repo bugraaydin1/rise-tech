@@ -8,7 +8,7 @@ import { Button, Chip, IconButton, Stack } from "@mui/material";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { PriorityImportance, PriorityType } from "../data/enum/Priority";
-import { Priority, Task } from "src/data/models/TaskModel";
+import { Task } from "src/data/models/TaskModel";
 
 import Grid from "./common/Grid";
 import TaskRemoveModal from "./TaskRemoveModal";
@@ -18,8 +18,7 @@ const TaskList = () => {
   const taskRows = useSelector(selectTasks);
   const dispatch = useDispatch();
 
-  const { data: priorities /* isLoading */ } = useGetPrioritiesQuery("");
-  console.log({ priorities });
+  const { data: priorities } = useGetPrioritiesQuery("/");
 
   const [selectedRowId, setSelectedRowId] = useState<number | undefined>();
   const [editingTask, setEditingTask] = useState<Task>({
@@ -161,7 +160,7 @@ const TaskList = () => {
         open={openEditModal}
         editingTask={editingTask}
         isEditMode={!!selectedRowId}
-        priorities={Object.keys(PriorityType) as Priority[]}
+        priorities={priorities}
         onAccept={handleEditModalAccept}
         onCancel={handleEditModalClose}
       />

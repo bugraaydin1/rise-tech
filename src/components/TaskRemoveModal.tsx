@@ -3,7 +3,6 @@ import Modal from "./common/Modal";
 
 interface Props {
   open: boolean;
-  priorities?: [];
   onAccept: () => void;
   onCancel: () => void;
 }
