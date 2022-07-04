@@ -1,21 +1,26 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetPrioritiesQuery } from "../features/task/priorityApiSlice";
+import { selectTasks } from "../store/selectors";
+import { addTask, editTask, removeTask } from "../features/task/taskSlice";
+
 import { Button, Chip, IconButton, Stack } from "@mui/material";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { PriorityImportance, PriorityType } from "../data/enum/Priority";
 import { Priority, Task } from "src/data/models/TaskModel";
+
 import Grid from "./common/Grid";
 import TaskRemoveModal from "./TaskRemoveModal";
 import TaskEditModal from "./TaskEditModal";
 
-interface Props {
-  initialRows: Task[];
-}
+const TaskList = () => {
+  const taskRows = useSelector(selectTasks);
+  const dispatch = useDispatch();
 
-const TaskList = (props: Props) => {
-  const { initialRows } = props;
+  const { data: priorities /* isLoading */ } = useGetPrioritiesQuery("");
+  console.log({ priorities });
 
-  const [rows, setRows] = useState<Task[]>(initialRows);
   const [selectedRowId, setSelectedRowId] = useState<number | undefined>();
   const [editingTask, setEditingTask] = useState<Task>({
     id: selectedRowId,
@@ -30,25 +35,21 @@ const TaskList = (props: Props) => {
     handleEditModalOpen();
   };
 
-  // Add/Edit task modal
+  // Add/Edit task modal functions
   const handleEditModalAccept = (task: Task) => {
-    if (task?.id) {
-      const newRows = rows.map(row => {
-        if (row.id === selectedRowId) {
-          return { ...row, ...task };
-        } else return row;
-      });
-
-      setRows(newRows);
+    if (task.id) {
+      dispatch(editTask({ task, id: task.id }));
     } else {
-      setRows([...rows, { ...task, id: Math.ceil(Math.random() * 30) }]);
+      dispatch(addTask({ task }));
     }
 
+    setSelectedRowId(undefined);
+    setEditingTask({ id: undefined, name: "", priority: "" });
     handleEditModalClose();
   };
 
   const handleEditModalOpen = (id?: number) => {
-    const editingTask: any = rows.find(row => row.id === id);
+    const editingTask: any = taskRows.find(row => row.id === id);
 
     if (id) setSelectedRowId(id);
     setOpenEditModal(true);
@@ -59,21 +60,19 @@ const TaskList = (props: Props) => {
     setOpenEditModal(false);
   };
 
-  // Remove task modal
+  // Remove task modal functions
   const handleRemoveModalOpen = (id: number) => {
     setSelectedRowId(id);
     setOpenDeleteModal(true);
   };
 
   const handleRemoveModalClose = () => {
-    setSelectedRowId(-1);
+    setSelectedRowId(undefined);
     setOpenDeleteModal(false);
   };
 
   const handleDeleteRow = () => {
-    const newRows = rows.filter(row => row.id != selectedRowId);
-
-    setRows(newRows);
+    selectedRowId && dispatch(removeTask({ id: selectedRowId }));
     handleRemoveModalClose();
   };
 
@@ -141,7 +140,7 @@ const TaskList = (props: Props) => {
   return (
     <>
       <Grid
-        rows={rows}
+        rows={taskRows}
         columns={columns}
         title={
           <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>

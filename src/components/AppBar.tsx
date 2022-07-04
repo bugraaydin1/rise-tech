@@ -8,18 +8,11 @@ const AppBar = () => {
     <Appbar position="static" sx={{ mb: 4 }}>
       <Container>
         <Toolbar disableGutters>
-          <Typography
-            href="/"
-            variant="h5"
-            component="a"
-            sx={{
-              mr: 3,
-              mb: -1,
-            }}>
+          <Typography href="/" variant="h5" component="a" sx={{ mr: 3, mb: -1 }}>
             <img src="aba-logo-alpha.png" alt="logo" height={30} />
           </Typography>
 
-          <Typography variant="h5" color="whitesmoke">
+          <Typography variant="h5" color="white">
             Task Organizer
           </Typography>
         </Toolbar>

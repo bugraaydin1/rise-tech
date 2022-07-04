@@ -1,6 +1,6 @@
 import { Task } from "./models/TaskModel";
 
-export const initialRows: Task[] = [
+export const initialTasks: Task[] = [
   { id: 1, name: "DOM manipulation", priority: "Urgent" },
   { id: 2, name: "Storage of data", priority: "Regular" },
   { id: 3, name: "Manipulation of data", priority: "Trivial" },
