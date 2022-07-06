@@ -30,7 +30,7 @@ const Grid = (props: Props) => {
 
     return (
       <GridToolbarContainer sx={{ p: 2, bgcolor: "primary.main" }}>
-        <GridToolbarQuickFilter color="secondary" sx={{ py: 1, pl: 2, pr: 3 }} />
+        <GridToolbarQuickFilter variant="outlined" color="secondary" sx={searchFilterCss} />
 
         <TextField
           select
@@ -38,7 +38,7 @@ const Grid = (props: Props) => {
           color="secondary"
           id="order-by-select"
           label="Task Order"
-          sx={{ width: { sm: 180, md: 320 } }}
+          sx={{ width: { sm: 180, md: 320 }, ...whiteBackgroundCss }}
           value={selectedSort}
           onChange={handleTaskOrderChange}>
           {gridSortModel.map((option: GridSortItem, idx) => (
@@ -55,13 +55,12 @@ const Grid = (props: Props) => {
 
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Box sx={{ m: 3, height: 500, width: "80%" }}>
+      <Box sx={{ m: 3, height: 600, width: "80%" }}>
         <Typography variant="h6">{title}</Typography>
         <DataGrid
           rows={rows}
           columns={columns}
           pageSize={5}
-          rowsPerPageOptions={[5, 10, 50]}
           disableColumnMenu
           disableSelectionOnClick
           sortModel={sortModel}
@@ -77,6 +76,15 @@ const Grid = (props: Props) => {
       </Box>
     </Box>
   );
+};
+
+const whiteBackgroundCss = { "> .MuiOutlinedInput-root": { bgcolor: "white" } };
+
+const searchFilterCss = {
+  py: 1,
+  pl: 2,
+  pr: 3,
+  ...whiteBackgroundCss,
 };
 
 const gridSortModel: GridSortModel = [

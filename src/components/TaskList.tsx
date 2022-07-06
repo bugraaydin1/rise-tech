@@ -75,7 +75,43 @@ const TaskList = () => {
     handleRemoveModalClose();
   };
 
-  const columns: GridColDef[] = [
+  return (
+    <>
+      <Grid
+        rows={taskRows}
+        columns={getColumnDefinition(handleEditModalOpen, handleRemoveModalOpen)}
+        title={
+          <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
+            Task List
+            <Button onClick={handleNewTask} variant="contained" color="info" startIcon={<Add />}>
+              Add Task
+            </Button>
+          </Stack>
+        }
+      />
+
+      <TaskRemoveModal
+        open={openDeleteModal}
+        onAccept={handleDeleteRow}
+        onCancel={handleRemoveModalClose}
+      />
+      <TaskEditModal
+        open={openEditModal}
+        editingTask={editingTask}
+        isEditMode={!!selectedRowId}
+        priorities={priorities}
+        onAccept={handleEditModalAccept}
+        onCancel={handleEditModalClose}
+      />
+    </>
+  );
+};
+
+const getColumnDefinition = (
+  handleEditModalOpen: (id: number) => void,
+  handleRemoveModalOpen: (id: number) => void
+): GridColDef[] => {
+  return [
     {
       field: "id",
       headerName: "Task ID",
@@ -135,37 +171,6 @@ const TaskList = () => {
       },
     },
   ];
-
-  return (
-    <>
-      <Grid
-        rows={taskRows}
-        columns={columns}
-        title={
-          <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
-            Task List
-            <Button onClick={handleNewTask} variant="contained" color="info" startIcon={<Add />}>
-              Add Task
-            </Button>
-          </Stack>
-        }
-      />
-
-      <TaskRemoveModal
-        open={openDeleteModal}
-        onAccept={handleDeleteRow}
-        onCancel={handleRemoveModalClose}
-      />
-      <TaskEditModal
-        open={openEditModal}
-        editingTask={editingTask}
-        isEditMode={!!selectedRowId}
-        priorities={priorities}
-        onAccept={handleEditModalAccept}
-        onCancel={handleEditModalClose}
-      />
-    </>
-  );
 };
 
 export default TaskList;
