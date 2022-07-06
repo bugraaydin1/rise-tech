@@ -1,4 +1,4 @@
-# Rise Tecnology Assesment
+# Rise Technology Assesment
 
 ## Techstack
 
@@ -8,9 +8,8 @@
 - Typescript
 - Redux Toolkit
 - Webpack + Babel
-- MUI library + Emotion
+- MUI library
 - Tslint
-- Jest
 
 ###### Backend
 
